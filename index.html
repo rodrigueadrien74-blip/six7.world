@@ -94,6 +94,42 @@ Faire un Rebirth
 
 <script>
 
+const colors = [
+    "#ff0000",
+    "#ff8400",
+    "#ffff00",
+    "#00ff00",
+    "#0000ff",
+    "#ff00ff"
+];
+
+let index = 0;
+
+const button = document.getElementById("rebirthBtn");
+
+setInterval(() => {
+
+    const color = colors[index];
+
+    document.body.style.backgroundColor = color;
+
+    button.style.backgroundColor = color;
+
+    // Couleur du texte pour qu'il reste lisible
+    button.style.color = "white";
+    button.style.border = "3px solid white";
+
+    index = (index + 1) % colors.length;
+
+}, 1000);
+
+// let index = 0;
+
+// setInterval(() => {
+//     document.body.style.background = colors[index];
+//     index = (index + 1) % colors.length;
+// }, 1000);
+
 let clicks = 0;
 
 let rebirths = 0;
@@ -112,8 +148,8 @@ document.getElementById("cost");
 const bonusText =
 document.getElementById("bonus");
 
-const button =
-document.getElementById("rebirthBtn");
+// const button =
+// document.getElementById("rebirthBtn");
 
 if("serviceWorker" in navigator) { 
     navigator.serviceWorker.register("sw.js"); 
