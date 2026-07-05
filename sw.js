@@ -1,9 +1,10 @@
-const CACHE = "jeu-v3";
+const CACHE = "jeu-v4";
 
 const FILES = [
     "./",
     "./index.html",
-    "./manifest.json"
+    "./manifest.json",
+    "./sw.js"
 ];
 
 self.addEventListener("install", event => {
