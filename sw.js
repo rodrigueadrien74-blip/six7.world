@@ -1,4 +1,4 @@
-const CACHE = "jeu-v2";
+const CACHE = "jeu-v3";
 
 const FILES = [
     "./",
