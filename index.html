@@ -1,70 +1,187 @@
+```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Compteur de clics</title>
+
+<title>Clicker + Rebirth</title>
 
 <style>
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #222;
-    color: white;
-    font-family: Arial, sans-serif;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    user-select:none;
+    -webkit-user-select:none;
 }
 
-#screen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial;
+    background:#222;
+    color:white;
 }
 
-h1 {
-    font-size: 60px;
-    margin: 0;
+#game{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    cursor:pointer;
 }
 
-p {
-    font-size: 28px;
-    margin-top: 20px;
+h1{
+    font-size:70px;
+}
+
+h2{
+    margin-top:10px;
+}
+
+button{
+    margin-top:30px;
+    font-size:28px;
+    padding:15px 40px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#00bfff;
+    color:white;
+}
+
+button:disabled{
+    background:gray;
+    cursor:not-allowed;
+}
+
+#bonus{
+    margin-top:20px;
+    font-size:24px;
 }
 </style>
 </head>
+
 <body>
 
-<div id="screen">
-    <h1 id="count">0</h1>
-    <p>Touche ou clique n'importe où</p>
+<div id="game">
+
+<h1 id="clicks">0</h1>
+
+<h2>
+Rebirths :
+<span id="rebirths">0</span>
+</h2>
+
+<h2>
+Coût :
+<span id="cost">100</span>
+</h2>
+
+<div id="bonus">
++1 clic par touche
+</div>
+
+<button id="rebirthBtn" disabled>
+Faire un Rebirth
+</button>
+
 </div>
 
 <script>
-let count = 0;
-const counter = document.getElementById("count");
 
-function addClick() {
-    count++;
-    counter.textContent = count;
+let clicks = 0;
+
+let rebirths = 0;
+
+let rebirthCost = 100;
+
+const clicksText =
+document.getElementById("clicks");
+
+const rebirthText =
+document.getElementById("rebirths");
+
+const costText =
+document.getElementById("cost");
+
+const bonusText =
+document.getElementById("bonus");
+
+const button =
+document.getElementById("rebirthBtn");
+
+function update(){
+
+    clicksText.innerHTML =
+    clicks;
+
+    rebirthText.innerHTML =
+    rebirths;
+
+    costText.innerHTML =
+    rebirthCost;
+
+    bonusText.innerHTML =
+    "+"+(rebirths+1)+" clic(s) par touche";
+
+    button.disabled =
+    clicks < rebirthCost;
+
 }
 
-// Clic souris
-document.addEventListener("click", addClick);
+function clickGame(){
 
-// Toucher téléphone
-document.addEventListener("touchstart", function(e) {
-    e.preventDefault(); // évite le clic supplémentaire sur mobile
-    addClick();
-}, { passive: false });
+    clicks += rebirths + 1;
+
+    update();
+
+}
+
+function rebirth(){
+
+    if(clicks < rebirthCost)
+        return;
+
+    clicks = 0;
+
+    rebirths++;
+
+    rebirthCost =
+    Math.floor(rebirthCost*2);
+
+    update();
+
+}
+
+document.addEventListener("click",function(e){
+
+    if(e.target===button)
+        return;
+
+    clickGame();
+
+});
+
+document.addEventListener("touchstart",function(e){
+
+    if(e.target===button)
+        return;
+
+    clickGame();
+
+},{passive:true});
+
+button.onclick=rebirth;
+
+update();
+
 </script>
 
 </body>
 </html>
+```
